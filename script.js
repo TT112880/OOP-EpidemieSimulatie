@@ -17,6 +17,7 @@ var y;
 var speedX;
 var speedY;
 const BREEDTE = 20;
+var img = 'dvd.png';
 
 
 
@@ -53,6 +54,9 @@ function draw() {
   noStroke;
   fill(255, 255, 255);
   rect(x, y, BREEDTE, BREEDTE);
+
+img(x, y, BREEDTE, BREEDTE);
+
 
   // update positie
   x = x + speedX;
