@@ -1,6 +1,6 @@
- /* Opdracht Objectgeorienteerd programmeren
-    Informatica - Emmauscollege Rotterdam
- */
+/* Opdracht Objectgeorienteerd programmeren
+   Informatica - Emmauscollege Rotterdam
+*/
 
 /* ******************************************************* */
 /* instellingen om foutcontrole van je code beter te maken */
@@ -13,17 +13,16 @@
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
 
-var speedX;
-var speedY;
-var xPosities;
-var yPosities;
-const BREEDTE = 20;
-//var DVD = { img : loadImage(/workspace/OOP-EpidemieSimulatie/dvd.png),
-//}
+var speedX = [];
+var speedY = [];
+var xPosities = [];
+var yPosities = [];
+const BREEDTE = 100;
+
 let img;
 
 function preload() {
-  img = loadImage('/workspace/OOP-EpidemieSimulatie/dvd.png');
+  img = loadImage('dvd-gold.png');
 }
 
 
@@ -41,14 +40,17 @@ function setup() {
   // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
   createCanvas(1280, 720);
 
-  image(img, xPosities[i], yPosities[i], BREEDTE, BREEDTE);
+  for (let i = 0; i < 1; i++) {
+    // initialiseer waarden
+    speedX.push(random(-10, 10)); //, random(-5, 5), random(-5, 5)];      // random waarde tussen -5 en 5
+    speedY.push(random(-10, 10)); //, random(-5, 5), random(-5, 5)];  
 
-  // initialiseer waarden
-  speedX = [random(-5, 5)]; //, random(-5, 5), random(-5, 5)];      // random waarde tussen -5 en 5
-  speedY = [random(-5, 5)]; //, random(-5, 5), random(-5, 5)];  
-  
-  xPosities = [random(0, 720)]; //, random(0, 720), random(0, 720)];
-  yPosities = [random(0, 720)]; //, random(0, 720), random(0, 720)];
+    xPosities.push(random(0, 1200)); //, random(0, 720), random(0, 720)];
+    yPosities.push(random(0, 680)); //, random(0, 720), random(0, 720)];
+  }
+
+
+
 }
 
 /**
@@ -61,27 +63,28 @@ function draw() {
   background(0, 0, 0);
 
 
-  for (let i = 0 ; i < xPosities.length; i++) {
+  for (let i = 0; i < xPosities.length; i++) {
 
 
-  // teken
-  //noStroke;
-  //fill(255, 255, 255);
-  // img(xPosities[i], yPosities[i], BREEDTE, BREEDTE);
+    // teken
+    //noStroke;
+    //fill(255, 255, 255);
+    // img(xPosities[i], yPosities[i], BREEDTE, BREEDTE);
+    image(img, xPosities[i], yPosities[i], BREEDTE, BREEDTE);
 
 
 
-  // update positie
-  xPosities[i] = xPosities[i] + speedX[i];
-  yPosities[i] = yPosities[i] + speedY[i];
+    // update positie
+    xPosities[i] = xPosities[i] + speedX[i];
+    yPosities[i] = yPosities[i] + speedY[i];
 
-  // stuiter evt. tegen de kanten
-  if (xPosities[i] <= 0 || xPosities[i] + BREEDTE >= width) {
-    speedX[i] = speedX[i] * -1;
-  }
+    // stuiter evt. tegen de kanten
+    if (xPosities[i] <= 0 || xPosities[i] + BREEDTE >= width) {
+      speedX[i] = speedX[i] * -1;
+    }
 
-  if (yPosities[i] <= 0 || yPosities[i] + BREEDTE >= height) {
-    speedY[i] = speedY[i] * -1;
-  }
+    if (yPosities[i] <= 0 || yPosities[i] + BREEDTE >= height) {
+      speedY[i] = speedY[i] * -1;
+    }
   }
 }
