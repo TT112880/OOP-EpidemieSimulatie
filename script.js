@@ -15,55 +15,54 @@
 // class voor het dvd-icoon
 
 class DVD {
-  img;
   xPositie;
   yPositie;
   speedX;
   speedY;
-  BREEDTE;
+  breedte = 100;
   img;
 
-  constructor(x, y, speedX, speedY, BREEDTE) {
+  constructor(x, y, speedX, speedY, dvdimg) {
+    this.img = dvdimg;
     this.xPositie = x;
     this.yPositie = y;
     this.speedX = speedX;
     this.speedY = speedY;
-    this.BREEDTE = BREEDTE;
+   
   }
 
-  show(){
-    
+  show() {
+
+    image(this.img, this.xPositie, this.yPositie, this.breedte, this.breedte);
+
   }
 
   update() {
     
-    for (let i = 0; i < xPosities.length; i++) {
+    this.xPositie = this.xPositie + this.speedX;
+    this.yPositie = this.yPositie + this.speedY;
 
-      image(img, xPosities[i], yPosities[i], BREEDTE, BREEDTE);
-
-      xPosities[i] = xPosities[i] + speedX[i];
-      yPosities[i] = yPosities[i] + speedY[i];
-
-      if (xPosities[i] <= 0 || xPosities[i] + BREEDTE >= width) {
-        speedX[i] = speedX[i] * -1;
-      }
-      if (yPosities[i] <= 0 || yPosities[i] + BREEDTE >= height) {
-        speedY[i] = speedY[i] * -1;
-      }
-
+    if (this.xPositie <= 0 || this.xPositie + this.breedte >= width) {
+      this.speedX = this.speedX * -1;
+    }
+    if (this.yPositie <= 0 || this.yPositie + this.breedte >= height) {
+      this.speedY = this.speedY * -1;
     }
 
+   /* this.speedX.push(random(-10, 10));
+    this.speedY.push(random(-10, 10));
+
+    this.xPositie.push(random(0, 1200));
+    this.yPositie.push(random(0, 680));
+*/
   }
+
 }
- var speedX = [];
-var speedY = [];
-var xPosities = [];
-var yPosities = [];
-const BREEDTE = 100;
-let img;
+var dvds = [];
+var dvdimg;
 
 function preload() {
-  img = loadImage('dvd-gold.png');
+  dvdimg = loadImage('dvd-gold.png');
 }
 
 
@@ -81,6 +80,7 @@ function setup() {
   // Maak een canvas (rechthoek) waarin je je speelveld kunt tekenen
   createCanvas(1280, 720);
 
+  /*
   for (let i = 0; i < 1; i++) {
     // initialiseer waarden
     speedX.push(random(-10, 10)); //, random(-5, 5), random(-5, 5)];      // random waarde tussen -5 en 5
@@ -89,8 +89,29 @@ function setup() {
     xPosities.push(random(0, 1200)); //, random(0, 720), random(0, 720)];
     yPosities.push(random(0, 680)); //, random(0, 720), random(0, 720)];
   }
+  */
 
+  // maak 25 random mensen
+  for (var i = 0; i < 5; i++) {
+    // we moeten ze niet te dicht bij de rand tekenen
+    // om geen problemen met stuiteren te krijgen
+    var ruimteTotRand = 50;
 
+    // creëer random positie en snelheid
+    var randomX = random(ruimteTotRand, width - ruimteTotRand);
+    var randomY = random(ruimteTotRand, height - ruimteTotRand);
+    var randomSpeedX = random(-5, 5);
+    var randomSpeedY = random(-5, 5);
+
+    // maak nieuw mensobject
+    var DVDA = new DVD(randomX, randomY, randomSpeedX, randomSpeedY, dvdimg);
+
+    // voeg mensobject toe aan array
+    dvds.push(DVDA);
+    
+
+  }
+  
 
 }
 
@@ -104,28 +125,21 @@ function draw() {
   background(0, 0, 0);
 
 
-  for (let i = 0; i < xPosities.length; i++) {
+  //for (let i = 0; i < xPositie.length; i++) {
 
 
     // teken
     //noStroke;
     //fill(255, 255, 255);
     // img(xPosities[i], yPosities[i], BREEDTE, BREEDTE);
-    image(img, xPosities[i], yPosities[i], BREEDTE, BREEDTE);
+    // image(img, xPosities[i], yPosities[i], BREEDTE, BREEDTE);
 
 
 
     // update positie
-    xPosities[i] = xPosities[i] + speedX[i];
-    yPosities[i] = yPosities[i] + speedY[i];
+   
 
     // stuiter evt. tegen de kanten
-    if (xPosities[i] <= 0 || xPosities[i] + BREEDTE >= width) {
-      speedX[i] = speedX[i] * -1;
-    }
-
-    if (yPosities[i] <= 0 || yPosities[i] + BREEDTE >= height) {
-      speedY[i] = speedY[i] * -1;
-    }
-  }
+ 
+ // }
 }
