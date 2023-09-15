@@ -12,13 +12,54 @@
 /* ********************************************* */
 /* globale variabelen die je gebruikt in je game */
 /* ********************************************* */
+// class voor het dvd-icoon
 
-var speedX = [];
+class DVD {
+  img;
+  xPositie;
+  yPositie;
+  speedX;
+  speedY;
+  BREEDTE;
+  img;
+
+  constructor(x, y, speedX, speedY, BREEDTE) {
+    this.xPositie = x;
+    this.yPositie = y;
+    this.speedX = speedX;
+    this.speedY = speedY;
+    this.BREEDTE = BREEDTE;
+  }
+
+  show(){
+    
+  }
+
+  update() {
+    
+    for (let i = 0; i < xPosities.length; i++) {
+
+      image(img, xPosities[i], yPosities[i], BREEDTE, BREEDTE);
+
+      xPosities[i] = xPosities[i] + speedX[i];
+      yPosities[i] = yPosities[i] + speedY[i];
+
+      if (xPosities[i] <= 0 || xPosities[i] + BREEDTE >= width) {
+        speedX[i] = speedX[i] * -1;
+      }
+      if (yPosities[i] <= 0 || yPosities[i] + BREEDTE >= height) {
+        speedY[i] = speedY[i] * -1;
+      }
+
+    }
+
+  }
+}
+ var speedX = [];
 var speedY = [];
 var xPosities = [];
 var yPosities = [];
 const BREEDTE = 100;
-
 let img;
 
 function preload() {
