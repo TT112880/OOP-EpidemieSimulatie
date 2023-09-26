@@ -20,6 +20,7 @@ class DVD {
   speedX;
   speedY;
   breedte = 100;
+  isBesmet;
   img;
 
   constructor(x, y, speedX, speedY, dvdimg) {
@@ -28,17 +29,25 @@ class DVD {
     this.yPositie = y;
     this.speedX = speedX;
     this.speedY = speedY;
-   
+    this.isBesmet = false;
   }
 
   show() {
+
+    if (this.isBesmet = true) {
+      this.img = loadImage('dvd-red.png')
+    }
+
+    else {
+      this.img = loadImage('dvd-gold.png')
+    }
 
     image(this.img, this.xPositie, this.yPositie, this.breedte, this.breedte);
 
   }
 
   update() {
-    
+
     this.xPositie = this.xPositie + this.speedX;
     this.yPositie = this.yPositie + this.speedY;
 
@@ -49,20 +58,22 @@ class DVD {
       this.speedY = this.speedY * -1;
     }
 
-   /* this.speedX.push(random(-10, 10));
-    this.speedY.push(random(-10, 10));
-
-    this.xPositie.push(random(0, 1200));
-    this.yPositie.push(random(0, 680));
-*/
+    /* this.speedX.push(random(-10, 10));
+     this.speedY.push(random(-10, 10));
+ 
+     this.xPositie.push(random(0, 1200));
+     this.yPositie.push(random(0, 680));
+ */
   }
 
 }
 var dvds = [];
-var dvdimg;
+var dvdimg_gold;
+var dvdimg_red;
 
 function preload() {
-  dvdimg = loadImage('dvd-gold.png');
+  dvdimg_gold = loadImage('dvd-gold.png');
+  dvdimg_red = loadImage('dvd-red.png')
 }
 
 
@@ -108,10 +119,10 @@ function setup() {
 
     // voeg mensobject toe aan array
     dvds.push(DVDA);
-    
+
 
   }
-  
+
 
 }
 
@@ -124,22 +135,25 @@ function draw() {
   // zwarte achtergrond
   background(0, 0, 0);
 
-
+  for (var i = 0; i < dvds.length; i++) {
+    DVD.show();
+    DVD.update();
+  }
   //for (let i = 0; i < xPositie.length; i++) {
 
 
-    // teken
-    //noStroke;
-    //fill(255, 255, 255);
-    // img(xPosities[i], yPosities[i], BREEDTE, BREEDTE);
-    // image(img, xPosities[i], yPosities[i], BREEDTE, BREEDTE);
+  // teken
+  //noStroke;
+  //fill(255, 255, 255);
+  // img(xPosities[i], yPosities[i], BREEDTE, BREEDTE);
+  // image(img, xPosities[i], yPosities[i], BREEDTE, BREEDTE);
 
 
 
-    // update positie
-   
+  // update positie
 
-    // stuiter evt. tegen de kanten
- 
- // }
+
+  // stuiter evt. tegen de kanten
+
+  // }
 }
