@@ -22,9 +22,12 @@ class DVD {
   breedte = 100;
   isBesmet;
   img;
+  img_normal;
+  img_infected;
 
-  constructor(x, y, speedX, speedY, dvdimg) {
-    this.img = dvdimg;
+  constructor(x, y, speedX, speedY, dvdimg_gold, dvdimg_red) {
+    this.img_normal = dvdimg_gold;
+    this.img_infected = dvdimg_red;
     this.xPositie = x;
     this.yPositie = y;
     this.speedX = speedX;
@@ -34,12 +37,12 @@ class DVD {
 
   show() {
 
-    if (this.isBesmet = true) {
-      this.img = loadImage('dvd-red.png')
+    if (this.isBesmet === true) {
+      this.img = this.img_infected;
     }
 
     else {
-      this.img = loadImage('dvd-gold.png')
+      this.img = this.img_normal;
     }
 
     image(this.img, this.xPositie, this.yPositie, this.breedte, this.breedte);
@@ -65,7 +68,39 @@ class DVD {
      this.yPositie.push(random(0, 680));
  */
   }
-
+  isOverlappend(andereDvd) {
+    // zet teruggeefwaarde standaard op false
+    var overlappend = false;
+  
+    if ( // valt linkerbovenhoek binnen randen van 'andereDvd'?
+         (this.xPositie >= andereDvd.xPositie &&
+          this.xPositie <= andereDvd.xPositie + andereDvd.breedte &&
+          this.yPositie >= andereDvd.yPositie &&
+          this.yPositie <= andereDvd.yPositie + andereDvd.breedte)
+        ||
+         // OF valt rechterbovenhoek binnen randen van 'andereDvd'?
+         (this.xPositie + this.breedte >= andereDvd.xPositie &&
+          this.xPositie + this.breedte <= andereDvd.xPositie + andereDvd.breedte &&
+          this.yPositie >= andereDvd.yPositie &&
+          this.yPositie <= andereDvd.yPositie + andereDvd.breedte)
+        || // OF de linkeronderhoek?
+         (this.xPositie >= andereDvd.xPositie &&
+          this.xPositie <= andereDvd.xPositie + andereDvd.breedte &&
+          this.yPositie + this.breedte >= andereDvd.yPositie &&
+          this.yPositie + this.breedte <= andereDvd.yPositie + andereDvd.breedte)
+        || // OF de hoek rechtsonder?
+         (this.xPositie >= andereDvd.xPositie &&
+          this.xPositie <= andereDvd.xPositie + andereDvd.breedte &&
+          this.yPositie + this.breedte >= andereDvd.yPositie &&
+          this.yPositie + this.breedte <= andereDvd.yPositie + andereDvd.breedte)
+       ) {
+          
+      overlappend = true;
+    }
+  
+    // stuur de teruggeefwaarde terug
+    return overlappend;
+  }
 }
 var dvds = [];
 var dvdimg_gold;
@@ -115,15 +150,17 @@ function setup() {
     var randomSpeedY = random(-5, 5);
 
     // maak nieuw mensobject
-    var DVDA = new DVD(randomX, randomY, randomSpeedX, randomSpeedY, dvdimg);
+    var DVDA = new DVD(randomX, randomY, randomSpeedX, randomSpeedY, dvdimg_gold, dvdimg_red);
 
     // voeg mensobject toe aan array
     dvds.push(DVDA);
 
+    
+
 
   }
 
-
+  dvds[0].isBesmet = true;
 }
 
 /**
@@ -136,11 +173,30 @@ function draw() {
   background(0, 0, 0);
 
   for (var i = 0; i < dvds.length; i++) {
-    DVD.show();
-    DVD.update();
+    dvds[i].show();
+    dvds[i].update();
   }
-  //for (let i = 0; i < xPositie.length; i++) {
-
+  
+    for (var i = 0; i < dvds.length; i++) {
+      var DVD_A = dvds[i];
+      // ga met mensA opnieuw alle mensen langs om te checken op overlap, behalve met zichzelf
+      for (var j = 0; j < dvds.length; j++) {
+        var DVD_B = dvds[j];
+        if (DVD_A != DVD_BB) {
+          // check overlap
+          var dvdsOverlappen = DVD_A.isOverlappend(DVD_B);
+          if (dvdsOverlappen) {
+            // check of er een besmetting optreedt
+            if (DVD_A.isBesmet || DVD_B.isBesmet) {
+              // als er één besmet is, wordt ze allebei besmet
+              // als ze allebei besmet zijn, verandert deze code niets.
+              DVD_AA.isBesmet = true;
+              DVD_BB.isBesmet = true;
+            }
+          }
+        }
+      }
+    }
 
   // teken
   //noStroke;
